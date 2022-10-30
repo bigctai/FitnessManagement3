@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * Creates a Location constant  of the town a member lives in with a zip code and county

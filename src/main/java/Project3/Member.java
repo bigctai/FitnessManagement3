@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * A Member class that provides the constructor for a member with a first name, last name,

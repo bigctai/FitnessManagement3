@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * A Premium class that is a subclass of the Family class provides the constructor for

@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * A ClassSchedule class that initializes a list of classes as an array.

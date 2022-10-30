@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * A Family class that is a subclass of the Member class provides the constructor for

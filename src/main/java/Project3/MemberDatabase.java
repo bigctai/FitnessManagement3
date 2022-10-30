@@ -1,4 +1,4 @@
-package projecttwo;
+package Project3;
 
 /**
  * Keeps track of all members of the fitness chain
