@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.RadioButton?>
@@ -8,15 +9,17 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
 <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-    <TabPane prefHeight="500.0" prefWidth="500.0" tabMinHeight="30.0" tabMinWidth="100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <TabPane prefHeight="408.0" prefWidth="498.0" tabMinHeight="30.0" tabMinWidth="100.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1">
         <Tab closable="false" text="Add/Remove Member">
          <content>
             <GridPane>
@@ -28,6 +31,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
@@ -74,16 +78,157 @@
                      </children>
                   </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="chooseLocation" onMouseClicked="#initialize" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <ChoiceBox fx:id="chooseLocation1" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </ChoiceBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="52.0" text="Add">
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Remove">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </HBox>
                </children>
             </GridPane>
          </content></Tab>
-        <Tab closable="false" text="CheckIn/CheckOut Class" />
-        <Tab closable="false" text="Display Information" />
+        <Tab closable="false" text="CheckIn/CheckOut Class">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="196.0" />
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="302.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="92.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Class" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="4" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth" GridPane.rowIndex="5" />
+                  <ChoiceBox fx:id="chooseLocation" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="69.0" top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                           <VBox.margin>
+                              <Insets left="69.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="61.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <TextField minWidth="100.0" prefWidth="250.0">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField minWidth="100.0" prefWidth="250.0">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <DatePicker prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Button mnemonicParsing="false" text="Member Check-In" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="65.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <HBox fillHeight="false" prefHeight="100.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                     <children>
+                        <Button mnemonicParsing="false" text="Guest Check-In">
+                           <HBox.margin>
+                              <Insets left="-65.0" right="8.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Member Check-Out">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Guest Check-Out" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="293.0" spacing="10.0" GridPane.columnIndex="1">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="Pilates" />
+                        <RadioButton mnemonicParsing="false" text="Spinning" />
+                        <RadioButton mnemonicParsing="false" text="Cardio" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </HBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" GridPane.rowIndex="1" />
+                  <HBox prefHeight="39.0" prefWidth="241.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="Morning" />
+                        <RadioButton mnemonicParsing="false" text="Afternoon" />
+                        <RadioButton mnemonicParsing="false" text="Evening" />
+                     </children>
+                  </HBox>
+                  <ChoiceBox fx:id="chooseTeacher" prefHeight="26.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+         </content></Tab>
+        <Tab closable="false" text="Display Information">
+         <content>
+            <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <VBox alignment="CENTER" layoutX="-5.0" layoutY="-1.0" prefHeight="309.0" prefWidth="255.0" spacing="25.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Print Members" />
+                              <Button mnemonicParsing="false" text="Print Members by County" />
+                              <Button mnemonicParsing="false" text="Print Members by Expiration Date" />
+                              <Button mnemonicParsing="false" text="Print Members by Name" />
+                              <Button mnemonicParsing="false" text="Print Members with Membership Fee" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <VBox layoutX="-1.0" layoutY="-1.0" prefHeight="309.0" prefWidth="247.0" />
+                        <VBox alignment="CENTER" layoutX="-1.0" prefHeight="309.0" prefWidth="247.0" spacing="50.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Load Members" />
+                              <Button mnemonicParsing="false" text="Load Classes" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </content></Tab>
     </TabPane>
    <TextFlow prefHeight="310.0" prefWidth="500.0" />
 </SplitPane>
