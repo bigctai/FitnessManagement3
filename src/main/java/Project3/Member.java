@@ -162,8 +162,9 @@ public class Member implements Comparable<Member> {
         } else {
             return 1;
         }
-
     }
+
+
 
     /**
      * Runs all test cases to ensure that method is working properly

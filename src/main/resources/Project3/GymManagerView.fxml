@@ -143,19 +143,19 @@
                   </VBox>
                   <VBox prefHeight="61.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <TextField minWidth="100.0" prefWidth="250.0">
+                        <TextField fx:id="memFirstName" minWidth="100.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField minWidth="100.0" prefWidth="250.0">
+                        <TextField fx:id="memLastName" minWidth="100.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
                      </children>
                   </VBox>
-                  <DatePicker prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker fx:id="dob" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" text="Member Check-In" GridPane.rowIndex="6" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets right="65.0" />

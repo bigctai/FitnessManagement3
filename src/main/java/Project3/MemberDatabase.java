@@ -1,5 +1,9 @@
 package Project3;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  * Keeps track of all members of the fitness chain
  * Contains members in an array, and has methods to find a member in the array, increase the array length,
@@ -18,6 +22,30 @@ public class MemberDatabase {
     public MemberDatabase() {
         this.mlist = new Member[4];
         size = 0;
+    }
+
+    /**
+     * Loads the list of members from the file specified in the path
+     * Will print all of the members in the list from beginning to end
+     */
+    private void loadMembers() {
+        String filePath = new File("").getAbsolutePath();
+        filePath += "/memberList";
+        File memberList = new File(filePath);
+        try {
+            Scanner memberScanner = new Scanner(memberList);
+            System.out.println("\n-list of members loaded-");
+            while (memberScanner.hasNextLine()) {
+                String[] memberInputData = memberScanner.nextLine().replaceAll("  ", " ").split(" ");
+                Member member = new Member(memberInputData[0], memberInputData[1], new Date(memberInputData[2]),
+                        new Date(memberInputData[3]), Location.valueOf(memberInputData[4].toUpperCase()));
+                add(member);
+                System.out.println(member);
+            }
+            System.out.println("-end of list-\n");
+        } catch (FileNotFoundException exception) {
+            System.out.println(exception);
+        }
     }
 
     /**

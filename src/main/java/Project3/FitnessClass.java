@@ -46,6 +46,16 @@ public class FitnessClass {
         guests = new ArrayList<>();
     }
 
+    public FitnessClass(String className, String instructor, Location gymLocation) {
+        this.instructor = instructor;
+        this.className = className;
+        this.gymLocation = gymLocation;
+        timeOfClass = null;
+        this.participants = null;
+        guests = new ArrayList<>();
+        this.size = 0;
+    }
+
     /**
      * Gets the name of the class
      *
@@ -266,6 +276,27 @@ public class FitnessClass {
             ((Family) guest).guestOut();
             guests.remove(guest);
             return 0;
+        }
+    }
+
+    /**
+     * Prints out the class along with the participants in it
+     * Prints out the name of the class, instructor, and the time of the class, followed by each participant
+     */
+    public void printClass() {
+        System.out.println(className.toUpperCase() + " - " + instructor.toUpperCase() + ", " +
+                timeOfClass.hourAndMinute() + ", " + gymLocation.name());
+        if (size > 0) {
+            System.out.println("- Participants -");
+            for (int i = 0; i < size; i++) {
+                System.out.println("\t" + participants[i].toString());
+            }
+        }
+        if (guests.size() > 0) {
+            System.out.println("- Guests -");
+            for (Member guest : guests) {
+                System.out.println("\t" + guest.toString());
+            }
         }
     }
 }
