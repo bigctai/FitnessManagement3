@@ -22,9 +22,6 @@ public class GymManager {
     private final int NO_MORE_GUEST = -7;
     private final int STANDARD = -8;
     private static final int NOT_CHECKED_IN = -9;
-    private static final int ADULT = 18;
-    private final int STANDARD_AND_FAMILY_EXPIRATION = 3;
-    private final int PREMIUM_EXPIRATION = 12;
 
     /**
      * Calls methods based on user input
@@ -37,9 +34,6 @@ public class GymManager {
             String[] inputData = input.split(" ");
             if (inputData.length > 0 && inputData[0].length() > 0) {
                 switch (inputData[0].charAt(0)) {
-                    case 'A':
-                        addMember(inputData);
-                        break;
                     case 'R':
                         removeMember(inputData);
                         break;
@@ -58,59 +52,6 @@ public class GymManager {
             }
         }
         System.out.println("Gym Manager terminated.");
-    }
-
-    /**
-     * Performs checks to make sure that member data is valid
-     * Checks location, if the member is already in database, and if the member's date of birth and
-     * expiration date are valid
-     *
-     * @param memberToAdd contains member data as elements of an array
-     */
-    private void addMember(String[] memberToAdd) {
-        if (!memberToAdd[0].equals("AF") && !memberToAdd[0].equals("AP") && !memberToAdd[0].equals("A")) {
-            System.out.println(memberToAdd[0] + " is an invalid command!");
-            return;
-        }
-        Member memToAdd = createMember(memberToAdd, false);
-        for (int i = 0; i < memData.size(); i++) {
-            if (memData.returnList()[i].equals(memToAdd)) {
-                System.out.println(memToAdd.fullName() + " is already in the database.");
-                return;
-            }
-        }
-        if (!isOldEnough(memToAdd.dob())) return;
-        if (memData.add(memToAdd)) System.out.println(memToAdd.fullName() + " added.");
-    }
-
-    /**
-     * Creates a member using the information inputted
-     * Determines if the member created is Premium or Family
-     *
-     * @param memberToAdd the information about the member held in an array of Strings
-     * @param fromFile    determines whether the Member is added from file or command line
-     * @return a Member with a first name, last name, date of birth, expiration date, and location
-     */
-    private Member createMember(String[] memberToAdd, boolean fromFile) {
-        String firstName;
-        String lastName;
-        Date dob;
-        Date expirationDate;
-        Location location = Location.valueOf(memberToAdd[4].toUpperCase());
-        firstName = memberToAdd[1];
-        lastName = memberToAdd[2];
-        dob = new Date(memberToAdd[3]);
-        expirationDate = new Date();
-        if (memberToAdd[0].equals("AF")) {
-            expirationDate.setExpire(STANDARD_AND_FAMILY_EXPIRATION);
-            return new Family(firstName, lastName, dob, expirationDate, location, 1);
-        } else if (memberToAdd[0].equals("AP")) {
-            expirationDate.setExpire(PREMIUM_EXPIRATION);
-            return new Premium(firstName, lastName, dob, expirationDate, location, 3);
-        } else {
-            expirationDate.setExpire(STANDARD_AND_FAMILY_EXPIRATION);
-        }
-        return new Member(firstName, lastName, dob, expirationDate, location);
     }
 
     /**
@@ -252,39 +193,6 @@ public class GymManager {
         } else {
             System.out.println(memToDrop.fullName() + " Guest done with the class.");
         }
-    }
-
-    /**
-     * Checks if the member is less than 18 years old
-     * Compares the member's age to the current date
-     *
-     * @param checkDateOfBirth the member who is checking in's date of birth
-     * @return false if the member is under 18, else true
-     */
-
-    //MOVE TO CONTROLLER
-    private boolean isOldEnough(Date checkDateOfBirth) {
-        Date currentDate = new Date();
-        String dob = checkDateOfBirth.dateString();
-        if (currentDate.compareTo(checkDateOfBirth) <= 0) {
-            System.out.println("DOB " + dob + ": cannot be today or a future date!");
-            return false;
-        }
-        if (currentDate.getYear() - checkDateOfBirth.getYear() < ADULT) {
-            System.out.println("DOB " + dob + ": must be 18 or older to join!");
-            return false;
-        } else if (currentDate.getYear() - checkDateOfBirth.getYear() == ADULT) {
-            if (currentDate.getMonth() < checkDateOfBirth.getMonth()) {
-                System.out.println("DOB " + dob + ": must be 18 or older to join!");
-                return false;
-            } else if (currentDate.getMonth() == checkDateOfBirth.getMonth()) {
-                if (currentDate.getDay() < checkDateOfBirth.getDay()) {
-                    System.out.println("DOB " + dob + ": must be 18 or older to join!");
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
