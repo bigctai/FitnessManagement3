@@ -230,5 +230,5 @@
             </SplitPane>
          </content></Tab>
     </TabPane>
-   <TextFlow prefHeight="310.0" prefWidth="500.0" />
+   <TextFlow fx:id="output1" prefHeight="310.0" prefWidth="500.0" />
 </SplitPane>

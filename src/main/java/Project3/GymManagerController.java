@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +17,8 @@ public class GymManagerController implements Initializable {
 
     private ObservableList<String> locations = FXCollections.observableArrayList("Edison", "Bridgewater", "Franklin", "Piscataway", "Somerville");
     private String[] teachers = {"Davis", "Kim", "Denise", "Emma", "Jennifer"};
-
+    private ClassSchedule classes = new ClassSchedule();
+    private MemberDatabase memData = new MemberDatabase();
     private static final int ADULT = 18;
     private final int STANDARD_AND_FAMILY_EXPIRATION = 3;
     private final int PREMIUM_EXPIRATION = 12;
@@ -38,22 +40,18 @@ public class GymManagerController implements Initializable {
     private TextField addLastName = new TextField();
     @FXML
     private RadioButton standard = new RadioButton();
+
+    ToggleGroup membershipOptions = new ToggleGroup();
     @FXML
     private RadioButton family = new RadioButton();
     @FXML
     private RadioButton premium = new RadioButton();
     @FXML
     private DatePicker addDob = new DatePicker();
-
-    private ClassSchedule classes = new ClassSchedule();
-    private MemberDatabase memData = new MemberDatabase();
-
     @FXML
     Button memCheckIn;
-
     @FXML
     Button add;
-
     @FXML
     Button print;
     @FXML
@@ -64,6 +62,8 @@ public class GymManagerController implements Initializable {
     Button printName;
     @FXML
     Button printCounty;
+    @FXML
+    TextFlow output1;
 
 
     @Override
@@ -71,21 +71,22 @@ public class GymManagerController implements Initializable {
         chooseLocation.getItems().addAll(locations);
         chooseLocation1.getItems().addAll(locations);
         chooseTeacher.getItems().addAll(teachers);
+        standard.setToggleGroup(membershipOptions);
+        family.setToggleGroup(membershipOptions);
+        premium.setToggleGroup(membershipOptions);
     }
 
     @FXML
     public void checkInMem(){
         String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
         Member memToCheckIn = new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth));
-        System.out.println(memToCheckIn.fullName());
-        System.out.println(memToCheckIn.dob().toString());
         /*
         FitnessClass fitClass = new FitnessClass(instructor, className, location);
         int fitClassIndex = classes.getClassIndex(fitClass);
         FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
         Member memToCheckIn = new Member(memberFirstName.getText(), memLastName, dob);
         classToCheckInto.checkInMember(memToCheckIn, classes);
-         */
+        */
     }
 
     /**
@@ -97,12 +98,15 @@ public class GymManagerController implements Initializable {
         Member memToAdd = createMem();
         for (int i = 0; i < memData.size(); i++) {
             if (memData.returnList()[i].equals(memToAdd)) {
-                System.out.println(memToAdd.fullName() + " is already in the database.");
+                output1.getChildren().add(new Text(memToAdd.fullName() + " is already in the database."));
                 return;
             }
         }
         if (!isOldEnough(memToAdd.dob())) return;
-        if (memData.add(memToAdd)) System.out.println(memToAdd.fullName() + " added.");
+        if (memData.add(memToAdd)){
+            Text outputText = new Text(memToAdd.fullName() + " added.");
+            output1.getChildren().add(outputText);
+        }
     }
 
     /**
@@ -144,25 +148,23 @@ public class GymManagerController implements Initializable {
      * @param checkDateOfBirth the member who is checking in's date of birth
      * @return false if the member is under 18, else true
      */
-
-    //MOVE TO CONTROLLER
     private boolean isOldEnough(Date checkDateOfBirth) {
         Date currentDate = new Date();
         String dob = checkDateOfBirth.toString();
         if (currentDate.compareTo(checkDateOfBirth) <= 0) {
-            System.out.println("DOB " + dob + ": cannot be today or a future date!");
+            output1.getChildren().add(new Text("DOB " + dob + ": cannot be today or a future date!"));
             return false;
         }
         if (currentDate.getYear() - checkDateOfBirth.getYear() < ADULT) {
-            System.out.println("DOB " + dob + ": must be 18 or older to join!");
+            output1.getChildren().add(new Text("DOB " + dob + ": must be 18 or older to join!"));
             return false;
         } else if (currentDate.getYear() - checkDateOfBirth.getYear() == ADULT) {
             if (currentDate.getMonth() < checkDateOfBirth.getMonth()) {
-                System.out.println("DOB " + dob + ": must be 18 or older to join!");
+                output1.getChildren().add(new Text("DOB " + dob + ": must be 18 or older to join!"));
                 return false;
             } else if (currentDate.getMonth() == checkDateOfBirth.getMonth()) {
                 if (currentDate.getDay() < checkDateOfBirth.getDay()) {
-                    System.out.println("DOB " + dob + ": must be 18 or older to join!");
+                    output1.getChildren().add(new Text("DOB " + dob + ": must be 18 or older to join!"));
                     return false;
                 }
             }
@@ -170,20 +172,35 @@ public class GymManagerController implements Initializable {
         return true;
     }
 
+    /**
+     * Prints out the members in the database in the current order
+     */
     public void print(){
         memData.print();
     }
+
+    /**
+     * Prints out the members in the database sorted by county
+     */
     public void printCounty(){
         memData.printByCounty();
     }
 
+    /**
+     * Prints out the members in the database sorted by expiration date
+     */
     public void printExpire(){
         memData.printByExpirationDate();
     }
+    /**
+     * Prints out the members in the database sorted by name
+     */
     public void printName(){
         memData.printByName();
     }
-
+    /**
+     * Prints out the members in the database sorted by fee
+     */
     public void printFee(){
         memData.printWithFees();
     }

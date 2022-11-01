@@ -37,9 +37,6 @@ public class GymManager {
                     case 'R':
                         removeMember(inputData);
                         break;
-                    case 'P':
-                        printMembers(inputData[0]);
-                        break;
                     case 'C':
                         checkIn(inputData);
                         break;
@@ -195,29 +192,4 @@ public class GymManager {
         }
     }
 
-    /**
-     * Prints all of the attributes of a member depending on the command inputted as the argument
-     * Calls outside methods to print the correct statement
-     *
-     * @param sortType string command used to print certain attributes of a member
-     */
-    private void printMembers(String sortType) {
-        switch (sortType) {
-            case "P":
-                memData.print();
-                break;
-            case "PC":
-                memData.printByCounty();
-                break;
-            case "PD":
-                memData.printByExpirationDate();
-                break;
-            case "PN":
-                memData.printByName();
-                break;
-            case "PF":
-                memData.printWithFees();
-                break;
-        }
-    }
 }
