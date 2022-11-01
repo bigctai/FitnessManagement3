@@ -54,6 +54,18 @@ public class GymManagerController implements Initializable {
     @FXML
     Button add;
 
+    @FXML
+    Button print;
+    @FXML
+    Button printDate;
+    @FXML
+    Button printFee;
+    @FXML
+    Button printName;
+    @FXML
+    Button printCounty;
+
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
         chooseLocation.getItems().addAll(locations);
@@ -157,4 +169,23 @@ public class GymManagerController implements Initializable {
         }
         return true;
     }
+
+    public void print(){
+        memData.print();
+    }
+    public void printCounty(){
+        memData.printByCounty();
+    }
+
+    public void printExpire(){
+        memData.printByExpirationDate();
+    }
+    public void printName(){
+        memData.printByName();
+    }
+
+    public void printFee(){
+        memData.printWithFees();
+    }
+
 }

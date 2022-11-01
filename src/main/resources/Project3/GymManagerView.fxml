@@ -206,11 +206,11 @@
                      <children>
                         <VBox alignment="CENTER" layoutX="-5.0" layoutY="-1.0" prefHeight="309.0" prefWidth="255.0" spacing="25.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Print Members" />
-                              <Button mnemonicParsing="false" text="Print Members by County" />
-                              <Button mnemonicParsing="false" text="Print Members by Expiration Date" />
-                              <Button mnemonicParsing="false" text="Print Members by Name" />
-                              <Button mnemonicParsing="false" text="Print Members with Membership Fee" />
+                              <Button fx:id="print" mnemonicParsing="false" onAction="#print" text="Print Members" />
+                              <Button fx:id="printCounty" mnemonicParsing="false" onAction="#printCounty" text="Print Members by County" />
+                              <Button fx:id="printExpiration" mnemonicParsing="false" onAction="#printExpire" text="Print Members by Expiration Date" />
+                              <Button fx:id="printName" mnemonicParsing="false" onAction="#printName" text="Print Members by Name" />
+                              <Button fx:id="printFee" mnemonicParsing="false" onAction="#printFee" text="Print Members with Membership Fee" />
                            </children>
                         </VBox>
                      </children>
