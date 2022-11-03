@@ -16,8 +16,7 @@
 
     <dependencies>
         <dependency>
-            <gro
-                    upId>org.openjfx</groupId>
+            <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.2</version>
         </dependency>
