@@ -187,7 +187,7 @@
                      </GridPane.margin>
                   </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" GridPane.rowIndex="1" />
-                  <HBox prefHeight="39.0" prefWidth="241.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="241.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <RadioButton mnemonicParsing="false" text="Morning" />
                         <RadioButton mnemonicParsing="false" text="Afternoon" />
