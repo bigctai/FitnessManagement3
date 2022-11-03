@@ -28,23 +28,24 @@ public class MemberDatabase {
      * Loads the list of members from the file specified in the path
      * Will print all of the members in the list from beginning to end
      */
-    private void loadMembers() {
+    public String loadMembers() {
         String filePath = new File("").getAbsolutePath();
         filePath += "/memberList";
         File memberList = new File(filePath);
         try {
+            String output = "-list of members loaded-";
             Scanner memberScanner = new Scanner(memberList);
-            System.out.println("\n-list of members loaded-");
             while (memberScanner.hasNextLine()) {
                 String[] memberInputData = memberScanner.nextLine().replaceAll("  ", " ").split(" ");
                 Member member = new Member(memberInputData[0], memberInputData[1], new Date(memberInputData[2]),
                         new Date(memberInputData[3]), Location.valueOf(memberInputData[4].toUpperCase()));
                 add(member);
-                System.out.println(member);
+                output += member + "\n";
             }
-            System.out.println("-end of list-\n");
+            output += "-end of list-\n";
+            return output;
         } catch (FileNotFoundException exception) {
-            System.out.println(exception);
+            return exception.toString();
         }
     }
 

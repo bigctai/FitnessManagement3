@@ -283,21 +283,22 @@ public class FitnessClass {
      * Prints out the class along with the participants in it
      * Prints out the name of the class, instructor, and the time of the class, followed by each participant
      */
-    public void printClass() {
-        System.out.println(className.toUpperCase() + " - " + instructor.toUpperCase() + ", " +
-                timeOfClass.hourAndMinute() + ", " + gymLocation.name());
+    public String printClass() {
+        String output = className.toUpperCase() + " - " + instructor.toUpperCase() + ", " +
+                timeOfClass.hourAndMinute() + ", " + gymLocation.name() + "\n";
         if (size > 0) {
-            System.out.println("- Participants -");
+            output += "- Participants -\n";
             for (int i = 0; i < size; i++) {
-                System.out.println("\t" + participants[i].toString());
+                output += "\t" + participants[i].toString() + "\n";
             }
         }
         if (guests.size() > 0) {
-            System.out.println("- Guests -");
+            output += "- Guests -\n";
             for (Member guest : guests) {
-                System.out.println("\t" + guest.toString());
+                output += "\t" + guest.toString() +"\n";
             }
         }
+        return output;
     }
 }
 

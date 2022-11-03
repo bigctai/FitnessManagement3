@@ -63,6 +63,10 @@ public class GymManagerController implements Initializable {
     @FXML
     Button printCounty;
     @FXML
+    Button loadMembers;
+    @FXML
+    Button loadSchedule;
+    @FXML
     TextArea output1;
 
 
@@ -98,13 +102,13 @@ public class GymManagerController implements Initializable {
         Member memToAdd = createMem();
         for (int i = 0; i < memData.size(); i++) {
             if (memData.returnList()[i].equals(memToAdd)) {
-                output1.setText(memToAdd.fullName() + " is already in the database.\n");
+                output1.appendText(memToAdd.fullName() + " is already in the database.\n");
                 return;
             }
         }
         if (!isOldEnough(memToAdd.dob())) return;
         if (memData.add(memToAdd)){
-            output1.setText(memToAdd.fullName() + " added.\n");
+            output1.appendText(memToAdd.fullName() + " added.\n");
         }
     }
 
@@ -151,19 +155,19 @@ public class GymManagerController implements Initializable {
         Date currentDate = new Date();
         String dob = checkDateOfBirth.toString();
         if (currentDate.compareTo(checkDateOfBirth) <= 0) {
-            output1.setText("DOB " + dob + ": cannot be today or a future date!\n");
+            output1.appendText("DOB " + dob + ": cannot be today or a future date!\n");
             return false;
         }
         if (currentDate.getYear() - checkDateOfBirth.getYear() < ADULT) {
-            output1.setText("DOB " + dob + ": must be 18 or older to join!\n");
+            output1.appendText("DOB " + dob + ": must be 18 or older to join!\n");
             return false;
         } else if (currentDate.getYear() - checkDateOfBirth.getYear() == ADULT) {
             if (currentDate.getMonth() < checkDateOfBirth.getMonth()) {
-                output1.setText("DOB " + dob + ": must be 18 or older to join!\n");
+                output1.appendText("DOB " + dob + ": must be 18 or older to join!\n");
                 return false;
             } else if (currentDate.getMonth() == checkDateOfBirth.getMonth()) {
                 if (currentDate.getDay() < checkDateOfBirth.getDay()) {
-                    output1.setText("DOB " + dob + ": must be 18 or older to join!\n");
+                    output1.appendText("DOB " + dob + ": must be 18 or older to join!\n");
                     return false;
                 }
             }
@@ -175,33 +179,40 @@ public class GymManagerController implements Initializable {
      * Prints out the members in the database in the current order
      */
     public void print(){
-        output1.setText(memData.print());
+        output1.appendText(memData.print());
     }
 
     /**
      * Prints out the members in the database sorted by county
      */
     public void printCounty(){
-        output1.setText(memData.printByCounty());
+        output1.appendText(memData.printByCounty());
     }
 
     /**
      * Prints out the members in the database sorted by expiration date
      */
     public void printExpire(){
-        output1.setText(memData.printByExpirationDate());
+        output1.appendText(memData.printByExpirationDate());
     }
     /**
      * Prints out the members in the database sorted by name
      */
     public void printName(){
-        output1.setText(memData.printByName());
+        output1.appendText(memData.printByName());
     }
     /**
      * Prints out the members in the database sorted by fee
      */
     public void printFee(){
-        output1.setText(memData.printWithFees());
+        output1.appendText(memData.printWithFees());
+    }
+
+    public void loadMembers(){
+        output1.appendText(memData.loadMembers());
+    }
+    public void loadSchedule() {
+        output1.appendText(classes.loadSchedule());
     }
 
 }

@@ -220,8 +220,8 @@
                         <VBox layoutX="-1.0" layoutY="-1.0" prefHeight="309.0" prefWidth="247.0" />
                         <VBox alignment="CENTER" layoutX="-1.0" prefHeight="309.0" prefWidth="247.0" spacing="50.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Load Members" />
-                              <Button mnemonicParsing="false" text="Load Classes" />
+                              <Button fx:id="loadMembers" mnemonicParsing="false" onAction="#loadMembers" text="Load Members" />
+                              <Button fx:id="loadSchedule" mnemonicParsing="false" onAction="#loadSchedule" text="Load Classes" />
                            </children>
                         </VBox>
                      </children>

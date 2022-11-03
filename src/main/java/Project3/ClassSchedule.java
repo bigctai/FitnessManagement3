@@ -30,24 +30,24 @@ public class ClassSchedule {
      * Loads the list of classes from the file specified in the path
      * Will print all of the classes in the list from beginning to end
      */
-    private void loadSchedule() {
+    public String loadSchedule() {
         String filePath = new File("").getAbsolutePath();
         filePath += "/classSchedule";
         File scheduleList = new File(filePath);
         try {
             Scanner classScanner = new Scanner(scheduleList);
-            System.out.println("\n-Fitness Classes loaded-");
+            String output = ("-Fitness Classes loaded-\n");
             while (classScanner.hasNextLine()) {
                 String[] classInputData = classScanner.nextLine().split(" ");
                 FitnessClass fitClass = new FitnessClass(Time.valueOf(classInputData[2].toUpperCase()),
                         classInputData[1], classInputData[0], Location.valueOf(classInputData[3].toUpperCase()), new Member[0]);
-                fitClass.printClass();
+                output += fitClass.printClass();
                 addClass(fitClass);
             }
-            System.out.println("-end of class list-\n");
-            System.out.println();
+            output += "-end of class list-\n";
+            return output;
         } catch (FileNotFoundException exception) {
-            System.out.println(exception);
+            return exception.toString();
         }
     }
 
