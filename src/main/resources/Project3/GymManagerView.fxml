@@ -91,7 +91,7 @@
                               <Insets right="30.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Remove">
+                        <Button fx:id="remove" mnemonicParsing="false" onAction="#removeMember" text="Remove">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

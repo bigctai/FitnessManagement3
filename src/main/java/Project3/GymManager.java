@@ -34,9 +34,6 @@ public class GymManager {
             String[] inputData = input.split(" ");
             if (inputData.length > 0 && inputData[0].length() > 0) {
                 switch (inputData[0].charAt(0)) {
-                    case 'R':
-                        removeMember(inputData);
-                        break;
                     case 'C':
                         checkIn(inputData);
                         break;
@@ -49,26 +46,6 @@ public class GymManager {
             }
         }
         System.out.println("Gym Manager terminated.");
-    }
-
-    /**
-     * Prints statements depending on if a member was successfully removed
-     * Calls "remove" method in MemberDatabase, which returns true if the member is in the database
-     * and false otherwise
-     *
-     * @param memberToRemove contains member data as elements of an array
-     */
-    private void removeMember(String[] memberToRemove) {
-        if (!memberToRemove[0].equals("R")) {
-            System.out.println(memberToRemove[0] + " is an invalid command!");
-            return;
-        }
-        if (memData.remove(new Member(memberToRemove[1].toUpperCase(), memberToRemove[2].toUpperCase(),
-                new Date(memberToRemove[3]))))
-            System.out.println(memberToRemove[1] + " " + memberToRemove[2] + " removed.");
-        else {
-            System.out.println(memberToRemove[1] + " " + memberToRemove[2] + " is not in the database.");
-        }
     }
 
     /**
@@ -91,27 +68,6 @@ public class GymManager {
             }
             Member memToCheckIn = memData.getFullDetails(new Member(memberToCheckIn[4], memberToCheckIn[5],
                     new Date(memberToCheckIn[6])));
-            int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classSchedule);
-            if (checkConditions == NOT_FOUND) {
-                System.out.println(memberToCheckIn[4] + " " + memberToCheckIn[5] + " " + memberToCheckIn[6] + " is not in the database.");
-            } else if (checkConditions == EXPIRED) {
-                System.out.println(memToCheckIn.fullName() + " " + memberToCheckIn[6] + " membership expired.");
-            } else if (checkConditions == WRONG_LOCATION) {
-                System.out.println(memToCheckIn.fullName() + " checking in " +
-                        classToCheckInto.getLocation().toString() + " - standard membership location restriction.");
-            } else if (checkConditions == DUPLICATE) {
-                System.out.println(memToCheckIn.fullName() + " already checked in.");
-            } else if (checkConditions == CONFLICT) {
-                System.out.println("Time conflict - " + classToCheckInto.getClassName().toUpperCase() + " - " + classToCheckInto.getInstructor().toUpperCase() + ", "
-                        + classToCheckInto.getTimeOfClass().hourAndMinute() + ", " + classToCheckInto.getLocation().toString() + ".");
-            } else {
-                System.out.print(memToCheckIn.fullName() + " checked in ");
-                classToCheckInto.printClass();
-                System.out.println();
-            }
-        } else {
-            System.out.println(memberToCheckIn[0] + " is an invalid command!");
-        }
     }
 
     /**

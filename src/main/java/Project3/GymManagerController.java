@@ -22,6 +22,15 @@ public class GymManagerController implements Initializable {
     private static final int ADULT = 18;
     private final int STANDARD_AND_FAMILY_EXPIRATION = 3;
     private final int PREMIUM_EXPIRATION = 12;
+    private final int NOT_FOUND = -1;
+    private final int EXPIRED = -2;
+    private final int WRONG_LOCATION = -3;
+    private final int DUPLICATE = -4;
+    private final int CONFLICT = -5;
+    private final int WRONG_GUEST_LOCATION = -6;
+    private final int NO_MORE_GUEST = -7;
+    private final int STANDARD = -8;
+    private static final int NOT_CHECKED_IN = -9;
     @FXML
     private ChoiceBox chooseLocation = new ChoiceBox();
     @FXML
@@ -41,6 +50,7 @@ public class GymManagerController implements Initializable {
     @FXML
     private RadioButton standard = new RadioButton();
 
+    @FXML
     ToggleGroup membershipOptions = new ToggleGroup();
     @FXML
     private RadioButton family = new RadioButton();
@@ -49,9 +59,27 @@ public class GymManagerController implements Initializable {
     @FXML
     private DatePicker addDob = new DatePicker();
     @FXML
+    ToggleGroup classType = new ToggleGroup();
+    @FXML
+    private RadioButton pilates = new RadioButton();
+    @FXML
+    private RadioButton spinning = new RadioButton();
+    @FXML
+    private RadioButton cardio = new RadioButton();
+    @FXML
+    ToggleGroup timeOfClass = new ToggleGroup();
+    @FXML
+    private RadioButton morning = new RadioButton();
+    @FXML
+    private RadioButton afternoon = new RadioButton();
+    @FXML
+    private RadioButton evening = new RadioButton();
+    @FXML
     Button memCheckIn;
     @FXML
     Button add;
+    @FXML
+    Button remove;
     @FXML
     Button print;
     @FXML
@@ -78,12 +106,53 @@ public class GymManagerController implements Initializable {
         standard.setToggleGroup(membershipOptions);
         family.setToggleGroup(membershipOptions);
         premium.setToggleGroup(membershipOptions);
+        pilates.setToggleGroup(classType);
+        cardio.setToggleGroup(classType);
+        spinning.setToggleGroup(classType);
+        morning.setToggleGroup(timeOfClass);
+        afternoon.setToggleGroup(timeOfClass);
+        evening.setToggleGroup(timeOfClass);
     }
 
     @FXML
     public void checkInMem(){
         String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
-        Member memToCheckIn = new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth));
+        Member memToCheckIn = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
+        RadioButton classTimeButton = (RadioButton) timeOfClass.getSelectedToggle();
+        Time classtime = Time.valueOf(classTimeButton.getText().toUpperCase());
+        RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
+        String className = classTypeButton.getText().toUpperCase();
+        classType.getSelectedToggle();
+        String instructor = chooseTeacher.getValue().toString();
+        Location location = Location.valueOf(chooseLocation.getValue().toString().toUpperCase());
+        int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
+        if (fitClassIndex < 0) return;
+        FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
+        if (guest) {
+            checkGuest(memberToCheckIn, classToCheckInto);
+            return;
+        }
+        int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classSchedule);
+        if (checkConditions == NOT_FOUND) {
+            System.out.println(memberToCheckIn[4] + " " + memberToCheckIn[5] + " " + memberToCheckIn[6] + " is not in the database.");
+        } else if (checkConditions == EXPIRED) {
+            System.out.println(memToCheckIn.fullName() + " " + memberToCheckIn[6] + " membership expired.");
+        } else if (checkConditions == WRONG_LOCATION) {
+            System.out.println(memToCheckIn.fullName() + " checking in " +
+                    classToCheckInto.getLocation().toString() + " - standard membership location restriction.");
+        } else if (checkConditions == DUPLICATE) {
+            System.out.println(memToCheckIn.fullName() + " already checked in.");
+        } else if (checkConditions == CONFLICT) {
+            System.out.println("Time conflict - " + classToCheckInto.getClassName().toUpperCase() + " - " + classToCheckInto.getInstructor().toUpperCase() + ", "
+                    + classToCheckInto.getTimeOfClass().hourAndMinute() + ", " + classToCheckInto.getLocation().toString() + ".");
+        } else {
+            System.out.print(memToCheckIn.fullName() + " checked in ");
+            classToCheckInto.printClass();
+            System.out.println();
+        }
+    } else {
+        System.out.println(memberToCheckIn[0] + " is an invalid command!");
+    }
         /*
         FitnessClass fitClass = new FitnessClass(instructor, className, location);
         int fitClassIndex = classes.getClassIndex(fitClass);
@@ -109,6 +178,20 @@ public class GymManagerController implements Initializable {
         if (!isOldEnough(memToAdd.dob())) return;
         if (memData.add(memToAdd)){
             output1.appendText(memToAdd.fullName() + " added.\n");
+        }
+    }
+
+    /**
+     * Prints statements depending on if a member was successfully removed
+     * Calls "remove" method in MemberDatabase, which returns true if the member is in the database
+     * and false otherwise
+     */
+    public void removeMember() {
+        Member memToRemove = createMem();
+        if (memData.remove(memToRemove))
+            output1.appendText(memToRemove.fullName() + " removed.\n");
+        else {
+            output1.appendText(memToRemove.fullName() + " is not in the database.\n");
         }
     }
 
