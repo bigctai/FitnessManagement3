@@ -75,6 +75,8 @@ public class GymManagerController implements Initializable {
     @FXML
     private RadioButton evening = new RadioButton();
     @FXML
+    private RadioButton guest = new RadioButton();
+    @FXML
     Button memCheckIn;
     @FXML
     Button add;
@@ -128,15 +130,15 @@ public class GymManagerController implements Initializable {
         int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
         if (fitClassIndex < 0) return;
         FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
-        if (guest) {
-            checkGuest(memberToCheckIn, classToCheckInto);
+        if (guest.isSelected()) {
+            //checkGuest(memberToCheckIn, classToCheckInto);
             return;
         }
-        int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classSchedule);
+        int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classes);
         if (checkConditions == NOT_FOUND) {
-            System.out.println(memberToCheckIn[4] + " " + memberToCheckIn[5] + " " + memberToCheckIn[6] + " is not in the database.");
+            System.out.println(memToCheckIn.fullName() + " " + memToCheckIn.dob() + " is not in the database.");
         } else if (checkConditions == EXPIRED) {
-            System.out.println(memToCheckIn.fullName() + " " + memberToCheckIn[6] + " membership expired.");
+            System.out.println(memToCheckIn.fullName() + " " + memToCheckIn.expirationDate() + " membership expired.");
         } else if (checkConditions == WRONG_LOCATION) {
             System.out.println(memToCheckIn.fullName() + " checking in " +
                     classToCheckInto.getLocation().toString() + " - standard membership location restriction.");
@@ -150,8 +152,6 @@ public class GymManagerController implements Initializable {
             classToCheckInto.printClass();
             System.out.println();
         }
-    } else {
-        System.out.println(memberToCheckIn[0] + " is an invalid command!");
     }
         /*
         FitnessClass fitClass = new FitnessClass(instructor, className, location);
@@ -160,7 +160,6 @@ public class GymManagerController implements Initializable {
         Member memToCheckIn = new Member(memberFirstName.getText(), memLastName, dob);
         classToCheckInto.checkInMember(memToCheckIn, classes);
         */
-    }
 
     /**
      * Performs checks to make sure that member data is valid
