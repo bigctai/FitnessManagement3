@@ -114,7 +114,6 @@
               <rowConstraints>
                 <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="116.0" vgrow="SOMETIMES" />
@@ -122,12 +121,12 @@
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Class" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="3" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="4" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor" GridPane.rowIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth" GridPane.rowIndex="5" />
-                  <ChoiceBox fx:id="chooseLocation" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth" GridPane.rowIndex="4" />
+                  <ChoiceBox fx:id="chooseLocation" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
                            <VBox.margin>
@@ -141,60 +140,43 @@
                         </Text>
                      </children>
                   </VBox>
-                  <VBox prefHeight="61.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <VBox prefHeight="61.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <TextField fx:id="memberFirstName" minWidth="100.0" prefWidth="250.0">
+                        <TextField fx:id="checkInFirstName" minWidth="100.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="memberLastName" minWidth="100.0" prefWidth="250.0">
+                        <TextField fx:id="checkInLastName" minWidth="100.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
                      </children>
                   </VBox>
-                  <DatePicker fx:id="dob" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Button fx:id="memCheckIn" mnemonicParsing="false" onAction="#checkInMem" text="Member Check-In" GridPane.rowIndex="6" GridPane.valignment="TOP">
-                     <GridPane.margin>
-                        <Insets right="65.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <HBox fillHeight="false" prefHeight="100.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                  <DatePicker fx:id="checkInDob" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <HBox fillHeight="false" prefHeight="100.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <children>
-                        <Button mnemonicParsing="false" text="Guest Check-In">
-                           <HBox.margin>
-                              <Insets left="-65.0" right="8.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" text="Member Check-Out">
+                        <Button fx:id="memDrop" mnemonicParsing="false" onAction="#dropClass" text="Member Check-Out">
                            <HBox.margin>
                               <Insets right="8.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Guest Check-Out" />
+                        <Button fx:id="memCheckIn" mnemonicParsing="false" onAction="#checkInMem" text="Member Check-In" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="293.0" spacing="10.0" GridPane.columnIndex="1">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="Pilates" />
-                        <RadioButton mnemonicParsing="false" text="Spinning" />
-                        <RadioButton mnemonicParsing="false" text="Cardio" />
+                        <RadioButton fx:id="pilates" mnemonicParsing="false" text="Pilates" />
+                        <RadioButton fx:id="spinning" mnemonicParsing="false" text="Spinning" />
+                        <RadioButton fx:id="cardio" mnemonicParsing="false" text="Cardio" />
                      </children>
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" GridPane.rowIndex="1" />
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="241.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="Morning" />
-                        <RadioButton mnemonicParsing="false" text="Afternoon" />
-                        <RadioButton mnemonicParsing="false" text="Evening" />
-                     </children>
-                  </HBox>
-                  <ChoiceBox fx:id="chooseTeacher" prefHeight="26.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="chooseTeacher" prefHeight="26.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="guest" mnemonicParsing="false" text="Guest?" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                </children>
             </GridPane>
          </content></Tab>

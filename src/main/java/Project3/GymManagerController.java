@@ -67,17 +67,11 @@ public class GymManagerController implements Initializable {
     @FXML
     private RadioButton cardio = new RadioButton();
     @FXML
-    ToggleGroup timeOfClass = new ToggleGroup();
-    @FXML
-    private RadioButton morning = new RadioButton();
-    @FXML
-    private RadioButton afternoon = new RadioButton();
-    @FXML
-    private RadioButton evening = new RadioButton();
-    @FXML
     private RadioButton guest = new RadioButton();
     @FXML
     Button memCheckIn;
+    @FXML
+    Button memDrop;
     @FXML
     Button add;
     @FXML
@@ -111,55 +105,7 @@ public class GymManagerController implements Initializable {
         pilates.setToggleGroup(classType);
         cardio.setToggleGroup(classType);
         spinning.setToggleGroup(classType);
-        morning.setToggleGroup(timeOfClass);
-        afternoon.setToggleGroup(timeOfClass);
-        evening.setToggleGroup(timeOfClass);
     }
-
-    @FXML
-    public void checkInMem(){
-        String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
-        Member memToCheckIn = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
-        RadioButton classTimeButton = (RadioButton) timeOfClass.getSelectedToggle();
-        Time classtime = Time.valueOf(classTimeButton.getText().toUpperCase());
-        RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
-        String className = classTypeButton.getText().toUpperCase();
-        classType.getSelectedToggle();
-        String instructor = chooseTeacher.getValue().toString();
-        Location location = Location.valueOf(chooseLocation.getValue().toString().toUpperCase());
-        int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
-        if (fitClassIndex < 0) return;
-        FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
-        if (guest.isSelected()) {
-            //checkGuest(memberToCheckIn, classToCheckInto);
-            return;
-        }
-        int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classes);
-        if (checkConditions == NOT_FOUND) {
-            System.out.println(memToCheckIn.fullName() + " " + memToCheckIn.dob() + " is not in the database.");
-        } else if (checkConditions == EXPIRED) {
-            System.out.println(memToCheckIn.fullName() + " " + memToCheckIn.expirationDate() + " membership expired.");
-        } else if (checkConditions == WRONG_LOCATION) {
-            System.out.println(memToCheckIn.fullName() + " checking in " +
-                    classToCheckInto.getLocation().toString() + " - standard membership location restriction.");
-        } else if (checkConditions == DUPLICATE) {
-            System.out.println(memToCheckIn.fullName() + " already checked in.");
-        } else if (checkConditions == CONFLICT) {
-            System.out.println("Time conflict - " + classToCheckInto.getClassName().toUpperCase() + " - " + classToCheckInto.getInstructor().toUpperCase() + ", "
-                    + classToCheckInto.getTimeOfClass().hourAndMinute() + ", " + classToCheckInto.getLocation().toString() + ".");
-        } else {
-            System.out.print(memToCheckIn.fullName() + " checked in ");
-            classToCheckInto.printClass();
-            System.out.println();
-        }
-    }
-        /*
-        FitnessClass fitClass = new FitnessClass(instructor, className, location);
-        int fitClassIndex = classes.getClassIndex(fitClass);
-        FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
-        Member memToCheckIn = new Member(memberFirstName.getText(), memLastName, dob);
-        classToCheckInto.checkInMember(memToCheckIn, classes);
-        */
 
     /**
      * Performs checks to make sure that member data is valid
@@ -255,6 +201,114 @@ public class GymManagerController implements Initializable {
             }
         }
         return true;
+    }
+
+    @FXML
+    public void checkInMem(){
+        String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
+        Member memToCheckIn = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
+        RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
+        String className = classTypeButton.getText().toUpperCase();
+        String instructor = chooseTeacher.getValue().toString();
+        Location location = Location.valueOf(chooseLocation.getValue().toString().toUpperCase());
+        int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
+        if (fitClassIndex < 0) {
+            output1.appendText(className + " by " + instructor + " does not exist at " + location + ".\n");
+            return;
+        }
+        FitnessClass classToCheckInto = classes.returnList()[fitClassIndex];
+        if (guest.isSelected()) {
+            checkGuest(memToCheckIn, classToCheckInto);
+            return;
+        }
+        int checkConditions = classToCheckInto.checkInMember(memToCheckIn, classes);
+        if (checkConditions == NOT_FOUND) {
+            output1.appendText(memToCheckIn.fullName() + " " + memToCheckIn.dob() + " is not in the database.\n");
+        } else if (checkConditions == EXPIRED) {
+            output1.appendText(memToCheckIn.fullName() + " " + memToCheckIn.expirationDate() + " membership expired.\n");
+        } else if (checkConditions == WRONG_LOCATION) {
+            output1.appendText(memToCheckIn.fullName() + " checking in " +
+                    classToCheckInto.getLocation().toString() + " - standard membership location restriction.\n");
+        } else if (checkConditions == DUPLICATE) {
+            output1.appendText(memToCheckIn.fullName() + " already checked in.\n");
+        } else if (checkConditions == CONFLICT) {
+            output1.appendText("Time conflict - " + classToCheckInto.getClassName().toUpperCase() + " - " + classToCheckInto.getInstructor().toUpperCase() + ", "
+                    + classToCheckInto.getTimeOfClass().hourAndMinute() + ", " + classToCheckInto.getLocation().toString() + ".\n");
+        } else {
+            output1.appendText(memToCheckIn.fullName() + " checked in.\n");
+            output1.appendText(classToCheckInto.printClass() + "\n");
+        }
+    }
+
+    /**
+     * Performs checks to ensure that the guest of a certain member is allowed to check in.
+     * Checks if the member is eligible to check in a guest, has guest passes remaining, and
+     * is checking in a guest at the original membership location.
+     *
+     * @param memCheckIn refers to the member checking in
+     * @param fitClass   the fitness class that the member is trying to check the guest into
+     */
+    private void checkGuest(Member memCheckIn, FitnessClass fitClass) {
+        int checkGuestCondition = fitClass.checkGuest(memCheckIn);
+        if (checkGuestCondition == WRONG_GUEST_LOCATION) {
+            output1.appendText(memCheckIn.fullName() + " Guest checking in " + fitClass.getLocation() + " - guest location restriction.\n");
+        } else if (checkGuestCondition == NO_MORE_GUEST) {
+            output1.appendText(memCheckIn.fullName() + " ran out of guest pass.\n");
+        } else if (checkGuestCondition == STANDARD) {
+            output1.appendText("Standard membership - guest check-in is not allowed.\n");
+        } else {
+            output1.appendText(memCheckIn.fullName() + " (guest) checked in.\n");
+            fitClass.printClass();
+            output1.appendText("\n");
+        }
+    }
+
+    /**
+     * Performs checks to make sure that the member can be dropped
+     * Checks if member's date of birth is valid, if the member is a participant in the class,
+     * and if the class exists
+     */
+    @FXML
+    private void dropClass() {
+        RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
+        String className = classTypeButton.getText().toUpperCase();
+        String instructor = chooseTeacher.getValue().toString();
+        Location location = Location.valueOf(chooseLocation.getValue().toString().toUpperCase());
+        int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
+        FitnessClass classToDrop = classes.returnList()[fitClassIndex];
+        if (fitClassIndex < 0) {
+            return;
+        }
+        String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
+        Member memToDrop = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
+        if (guest.isSelected()) {
+            dropGuest(memToDrop, classToDrop);
+            return;
+        }
+        int dropClassCondition = classToDrop.dropMem(memToDrop);
+        if (dropClassCondition == NOT_FOUND) {
+            output1.appendText(memToDrop.fullName() + " " + memToDrop.dob() + " is not in the database.\n");
+        } else if (dropClassCondition == NOT_CHECKED_IN) {
+            output1.appendText(memToDrop.fullName() + " did not check in.\n");
+        } else {
+            output1.appendText(memToDrop.fullName() + " done with the class.\n");
+        }
+    }
+
+    /**
+     * Performs checks to make sure that the members guest can drop or end their class session.
+     * Checks if the member checked a guest into the class before ending the class session for the guest.
+     *
+     * @param memToDrop   the member whose guest is trying to drop the class
+     * @param classToDrop the fitness class that the guest is trying to drop
+     */
+    public void dropGuest(Member memToDrop, FitnessClass classToDrop) {
+        int dropGuestCondition = classToDrop.removeGuest(memToDrop);
+        if (dropGuestCondition == NOT_CHECKED_IN) {
+            output1.appendText(memToDrop.fullName() + " did not check in.");
+        } else {
+            output1.appendText(memToDrop.fullName() + " Guest done with the class.");
+        }
     }
 
     /**

@@ -82,9 +82,6 @@ public class ClassSchedule {
                 }
             }
         }
-        if (classExists < 0) {
-            System.out.println(fitClass.getClassName() + " by " + fitClass.getInstructor() + " does not exist at " + fitClass.getLocation());
-        }
         return classExists;
     }
 
