@@ -39,8 +39,13 @@ public class MemberDatabase {
                 String[] memberInputData = memberScanner.nextLine().replaceAll("  ", " ").split(" ");
                 Member member = new Member(memberInputData[0], memberInputData[1], new Date(memberInputData[2]),
                         new Date(memberInputData[3]), Location.valueOf(memberInputData[4].toUpperCase()));
-                add(member);
-                output += member + "\n";
+                if(find(member) >= 0){
+                    output += member.fullName() + " already in database\n";
+                }
+                else {
+                    add(member);
+                    output += member + "\n";
+                }
             }
             output += "-end of list-\n";
             return output;

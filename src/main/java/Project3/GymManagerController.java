@@ -99,12 +99,6 @@ public class GymManagerController implements Initializable {
         chooseLocation.getItems().addAll(locations);
         chooseLocation1.getItems().addAll(locations);
         chooseTeacher.getItems().addAll(teachers);
-        standard.setToggleGroup(membershipOptions);
-        family.setToggleGroup(membershipOptions);
-        premium.setToggleGroup(membershipOptions);
-        pilates.setToggleGroup(classType);
-        cardio.setToggleGroup(classType);
-        spinning.setToggleGroup(classType);
     }
 
     /**
@@ -113,6 +107,9 @@ public class GymManagerController implements Initializable {
      * expiration date are valid
      */
     public void addMember() {
+        if(!checkMemberFields("add")){
+            return;
+        }
         Member memToAdd = createMem();
         for (int i = 0; i < memData.size(); i++) {
             if (memData.returnList()[i].equals(memToAdd)) {
@@ -132,6 +129,9 @@ public class GymManagerController implements Initializable {
      * and false otherwise
      */
     public void removeMember() {
+        if(!checkMemberFields("remove")){
+            return;
+        }
         Member memToRemove = createMem();
         if (memData.remove(memToRemove))
             output1.appendText(memToRemove.fullName() + " removed.\n");
@@ -205,6 +205,10 @@ public class GymManagerController implements Initializable {
 
     @FXML
     public void checkInMem(){
+        if(!checkClassFields()) return;
+        if(!checkMemberFields("check-in")){
+            return;
+        }
         String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
         Member memToCheckIn = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
         RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
@@ -270,6 +274,12 @@ public class GymManagerController implements Initializable {
      */
     @FXML
     private void dropClass() {
+        if (!checkClassFields()) {
+            return;
+        }
+        if(!checkMemberFields("check-in")){
+            return;
+        }
         RadioButton classTypeButton = (RadioButton) classType.getSelectedToggle();
         String className = classTypeButton.getText().toUpperCase();
         String instructor = chooseTeacher.getValue().toString();
@@ -309,6 +319,65 @@ public class GymManagerController implements Initializable {
         } else {
             output1.appendText(memToDrop.fullName() + " Guest done with the class.");
         }
+    }
+
+    private boolean checkMemberFields(String type) {
+        TextField firstName;
+        TextField lastName;
+        DatePicker dob;
+        ChoiceBox location = null;
+        if(type.equals("check-in")){
+            firstName = checkInFirstName;
+            lastName = checkInLastName;
+            dob = checkInDob;
+        }
+        else{
+            firstName = addFirstName;
+            lastName = addLastName;
+            dob = addDob;
+            location = chooseLocation1;
+        }
+        if (!firstName.getText().isEmpty()){
+            if (!firstName.getText().matches("[A-Za-z]+")) {
+                output1.appendText("Only letters allowed in first name!\n");
+                return false;
+            }
+        }
+        else {
+            output1.appendText("Enter a first name!\n");
+            return false;
+        }
+        if(!lastName.getText().isEmpty()) {
+            if (!lastName.getText().matches("[A-Za-z]+")) {
+                output1.appendText("Only letters allowed in last name!\n");
+                return false;
+            }
+        }
+        else{
+            output1.appendText("Enter a last name!\n");
+            return false;
+        }
+        if(dob.getValue() == null){
+            output1.appendText("Enter a date!\n");
+            return false;
+        }
+        if(type.equals("add") && location.getValue() == null){
+            output1.appendText("Choose a location!\n");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkClassFields(){
+        if(chooseTeacher.getValue() == null){
+            output1.appendText("Choose an instructor!\n");
+            return false;
+        }
+        else if(chooseLocation.getValue() == null){
+            output1.appendText("Choose a location!\n");
+            return false;
+        }
+        return true;
     }
 
     /**

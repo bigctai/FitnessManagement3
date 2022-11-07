@@ -41,8 +41,13 @@ public class ClassSchedule {
                 String[] classInputData = classScanner.nextLine().split(" ");
                 FitnessClass fitClass = new FitnessClass(Time.valueOf(classInputData[2].toUpperCase()),
                         classInputData[1], classInputData[0], Location.valueOf(classInputData[3].toUpperCase()), new Member[0]);
-                output += fitClass.printClass();
-                addClass(fitClass);
+                if(getClassIndex(fitClass) >= 0){
+                    output += fitClass.getClassName() + " already loaded.\n";
+                }
+                else {
+                    output += fitClass.printClass();
+                    addClass(fitClass);
+                }
             }
             output += "-end of class list-\n";
             return output;

@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -49,7 +50,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.halignment="CENTER" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <DatePicker fx:id="addDob" prefWidth="250.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                  <DatePicker fx:id="addDob" editable="false" prefWidth="250.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
@@ -64,13 +65,16 @@
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="membershipOptions" />
+                           </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="family" mnemonicParsing="false" text="Family" translateY="25.0">
+                        <RadioButton fx:id="family" mnemonicParsing="false" text="Family" toggleGroup="$membershipOptions" translateY="25.0">
                            <padding>
                               <Insets right="20.0" />
                            </padding>
                         </RadioButton>
-                        <RadioButton fx:id="premium" mnemonicParsing="false" text="Premium" translateY="25.0">
+                        <RadioButton fx:id="premium" mnemonicParsing="false" text="Premium" toggleGroup="$membershipOptions" translateY="25.0">
                            <padding>
                               <Insets right="10.0" />
                            </padding>
@@ -154,22 +158,25 @@
                         </TextField>
                      </children>
                   </VBox>
-                  <DatePicker fx:id="checkInDob" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="checkInDob" editable="false" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <HBox fillHeight="false" prefHeight="100.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <children>
-                        <Button fx:id="memDrop" mnemonicParsing="false" onAction="#dropClass" text="Member Check-Out">
+                        <Button fx:id="memDrop" mnemonicParsing="false" onAction="#dropClass" text="Check-Out">
                            <HBox.margin>
                               <Insets right="8.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="memCheckIn" mnemonicParsing="false" onAction="#checkInMem" text="Member Check-In" />
+                        <Button fx:id="memCheckIn" mnemonicParsing="false" onAction="#checkInMem" text="Check-In" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="293.0" spacing="10.0" GridPane.columnIndex="1">
                      <children>
-                        <RadioButton fx:id="pilates" mnemonicParsing="false" text="Pilates" />
-                        <RadioButton fx:id="spinning" mnemonicParsing="false" text="Spinning" />
-                        <RadioButton fx:id="cardio" mnemonicParsing="false" text="Cardio" />
+                        <RadioButton fx:id="pilates" mnemonicParsing="false" selected="true" text="Pilates">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="classType" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="spinning" mnemonicParsing="false" text="Spinning" toggleGroup="$classType" />
+                        <RadioButton fx:id="cardio" mnemonicParsing="false" text="Cardio" toggleGroup="$classType" />
                      </children>
                      <GridPane.margin>
                         <Insets />
