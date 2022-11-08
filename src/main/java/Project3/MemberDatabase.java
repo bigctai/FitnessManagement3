@@ -33,7 +33,7 @@ public class MemberDatabase {
         filePath += "/memberList";
         File memberList = new File(filePath);
         try {
-            String output = "-list of members loaded-";
+            String output = "-list of members loaded-\n";
             Scanner memberScanner = new Scanner(memberList);
             while (memberScanner.hasNextLine()) {
                 String[] memberInputData = memberScanner.nextLine().replaceAll("  ", " ").split(" ");
