@@ -13,6 +13,14 @@ import javafx.scene.text.TextFlow;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * A GymManagerController class that provides functionality to the Gym Manager
+ * methods. Validates member information when user tries to add/remove members from
+ * database or checkin/checkout members and guests. Provides methods and buttons to
+ * print members and classes sorted based on certain criteria.
+ *
+ * @author Chris Tai, Shreyank Yelagoila
+ */
 public class GymManagerController implements Initializable {
 
     private ObservableList<String> locations = FXCollections.observableArrayList("Edison", "Bridgewater", "Franklin", "Piscataway", "Somerville");
@@ -95,6 +103,9 @@ public class GymManagerController implements Initializable {
 
 
     @Override
+    /**
+     * Initialize the choice box options
+     */
     public void initialize(URL arg0, ResourceBundle arg1){
         chooseLocation.getItems().addAll(locations);
         chooseLocation1.getItems().addAll(locations);
@@ -204,6 +215,11 @@ public class GymManagerController implements Initializable {
     }
 
     @FXML
+    /**
+     * Checks if the input values of the member being checked in is valid.
+     * Prints out a corresponding output if there is an invalid input or the
+     * member is successfully checked in.
+     */
     public void checkInMem(){
         if(!checkClassFields()) return;
         if(!checkMemberFields("check-in")){
@@ -321,6 +337,11 @@ public class GymManagerController implements Initializable {
         }
     }
 
+    /**
+     * Check all the member fields entered into the GUI.
+     * @param type a string to determine what type of activity is supposed to happen.
+     * @return true if all member fields are valid, and false otherwise.
+     */
     private boolean checkMemberFields(String type) {
         TextField firstName;
         TextField lastName;
@@ -368,6 +389,10 @@ public class GymManagerController implements Initializable {
         return true;
     }
 
+    /**
+     * Check all the class fields to see if they are valid
+     * @return true if the fields all correspond to a valid class, and false otherwise
+     */
     private boolean checkClassFields(){
         if(chooseTeacher.getValue() == null){
             output1.appendText("Choose an instructor!\n");
@@ -413,9 +438,16 @@ public class GymManagerController implements Initializable {
         output1.appendText(memData.printWithFees());
     }
 
+    /**
+     * Loads all the members from the member database
+     */
     public void loadMembers(){
         output1.appendText(memData.loadMembers());
     }
+
+    /**
+     * Loads all the classes in the class schedule
+     */
     public void loadSchedule() {
         output1.appendText(classes.loadSchedule());
     }
