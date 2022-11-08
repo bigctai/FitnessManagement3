@@ -83,6 +83,8 @@ public class GymManagerController implements Initializable {
     @FXML
     Button add;
     @FXML
+    Button printClasses;
+    @FXML
     Button remove;
     @FXML
     Button print;
@@ -174,7 +176,7 @@ public class GymManagerController implements Initializable {
         }
         else if(premium.isSelected()){
             expirationDate.setExpire(PREMIUM_EXPIRATION);
-            memToCheckIn = new Family(addFirstName.getText(), addLastName.getText(), new Date(dateOfBirth),
+            memToCheckIn = new Premium(addFirstName.getText(), addLastName.getText(), new Date(dateOfBirth),
                     expirationDate, Location.valueOf(chooseLocation1.getValue().toString().toUpperCase()), 3);
         }
         else{
@@ -278,7 +280,7 @@ public class GymManagerController implements Initializable {
             output1.appendText("Standard membership - guest check-in is not allowed.\n");
         } else {
             output1.appendText(memCheckIn.fullName() + " (guest) checked in.\n");
-            fitClass.printClass();
+            output1.appendText(fitClass.printClass());
             output1.appendText("\n");
         }
     }
@@ -301,10 +303,10 @@ public class GymManagerController implements Initializable {
         String instructor = chooseTeacher.getValue().toString();
         Location location = Location.valueOf(chooseLocation.getValue().toString().toUpperCase());
         int fitClassIndex = classes.getClassIndex(new FitnessClass(className, instructor, location));
-        FitnessClass classToDrop = classes.returnList()[fitClassIndex];
         if (fitClassIndex < 0) {
             return;
         }
+        FitnessClass classToDrop = classes.returnList()[fitClassIndex];
         String dateOfBirth = checkInDob.getValue().getMonthValue() + "/" + checkInDob.getValue().getDayOfMonth() + "/" + checkInDob.getValue().getYear();
         Member memToDrop = memData.getFullDetails(new Member(checkInFirstName.getText(), checkInLastName.getText(), new Date(dateOfBirth)));
         if (guest.isSelected()) {
@@ -321,6 +323,10 @@ public class GymManagerController implements Initializable {
         }
     }
 
+    public void printClasses(){
+        output1.appendText(classes.printClasses());
+    }
+
     /**
      * Performs checks to make sure that the members guest can drop or end their class session.
      * Checks if the member checked a guest into the class before ending the class session for the guest.
@@ -331,9 +337,9 @@ public class GymManagerController implements Initializable {
     public void dropGuest(Member memToDrop, FitnessClass classToDrop) {
         int dropGuestCondition = classToDrop.removeGuest(memToDrop);
         if (dropGuestCondition == NOT_CHECKED_IN) {
-            output1.appendText(memToDrop.fullName() + " did not check in.");
+            output1.appendText(memToDrop.fullName() + " did not check in.\n");
         } else {
-            output1.appendText(memToDrop.fullName() + " Guest done with the class.");
+            output1.appendText(memToDrop.fullName() + " Guest done with the class.\n");
         }
     }
 

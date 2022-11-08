@@ -114,22 +114,19 @@ public class ClassSchedule {
      * Prints out each fitness class in the fitness chain
      * Calls the printClass method in FitnessClass
      *
-     * @param input Checks to make sure the command is valid
      */
-    private void printClasses(String input) {
-        if (input.equals("S")) {
-            if (numOfClasses == 0) {
-                System.out.println("Fitness class schedule is empty");
-            } else {
-                System.out.println("-Fitness classes-");
-                for (int i = 0; i < numOfClasses; i++) {
-                    classes[i].printClass();
-                }
-                System.out.println("-end of class list.\n");
-            }
+    public String printClasses() {
+        String result = "";
+        if (numOfClasses == 0) {
+            return "Fitness class schedule is empty\n";
         } else {
-            System.out.println(input + " is an invalid command!");
+            result += "-Fitness classes-\n";
+            for (int i = 0; i < numOfClasses; i++) {
+                result += classes[i].printClass();
+            }
+            result += "-end of class list.\n";
         }
+        return result;
     }
 
 }

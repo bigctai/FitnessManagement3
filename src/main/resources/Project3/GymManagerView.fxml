@@ -203,6 +203,7 @@
                               <Button fx:id="printExpiration" mnemonicParsing="false" onAction="#printExpire" text="Print Members by Expiration Date" />
                               <Button fx:id="printName" mnemonicParsing="false" onAction="#printName" text="Print Members by Name" />
                               <Button fx:id="printFee" mnemonicParsing="false" onAction="#printFee" text="Print Members with Membership Fee" />
+                              <Button fx:id="printClasses" mnemonicParsing="false" onAction="#printClasses" text="Print Classes" />
                            </children>
                         </VBox>
                      </children>
